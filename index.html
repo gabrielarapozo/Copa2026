@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOXBet 2026 🦊</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;800&family=Barlow:wght@400;500;600&display=swap');
+
+  :root {
+    --verde: #00a84f;
+    --verde-escuro: #007a38;
+    --amarelo: #f5c518;
+    --azul: #1a2744;
+    --azul-medio: #243460;
+    --cinza-claro: #f4f4f2;
+    --cinza: #e0ddd6;
+    --texto: #1a1a1a;
+    --texto-suave: #555;
+    --branco: #ffffff;
+    --erro: #e63946;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--cinza-claro);
+    color: var(--texto);
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--azul);
+    padding: 20px 16px 16px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 4px solid var(--amarelo);
+  }
+  header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--branco);
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+  header h1 span { color: var(--amarelo); }
+  header p { color: #aab8d4; font-size: 0.82rem; margin-top: 4px; }
+
+  .progress-bar-wrap {
+    background: var(--azul-medio);
+    height: 6px;
+    margin-top: 10px;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--amarelo);
+    border-radius: 3px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  main { max-width: 680px; margin: 0 auto; padding: 20px 12px 100px; }
+
+  .step-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+    margin-bottom: 6px;
+  }
+
+  section.card {
+    background: var(--branco);
+    border-radius: 14px;
+    padding: 20px 16px;
+    margin-bottom: 14px;
+    border: 1.5px solid var(--cinza);
+  }
+  section.card.done { border-color: var(--verde); background: #f0faf5; }
+  section.card.error-card { border-color: var(--erro); }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .group-badge {
+    background: var(--azul);
+    color: var(--amarelo);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--azul);
+    line-height: 1.2;
+  }
+  .section-header h2 small {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: var(--texto-suave);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .done-check { margin-left: auto; color: var(--verde); font-size: 1.3rem; display: none; }
+  .card.done .done-check { display: block; }
+
+  .instrucao {
+    font-size: 0.78rem;
+    color: var(--texto-suave);
+    background: #f7f7f5;
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    border-left: 3px solid var(--amarelo);
+  }
+
+  .times-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .time-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border: 1.5px solid var(--cinza);
+    border-radius: 10px;
+    background: var(--branco);
+    cursor: pointer;
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--texto);
+    transition: all 0.15s;
+    text-align: left;
+    position: relative;
+  }
+  .time-btn:hover { border-color: #aaa; background: var(--cinza-claro); }
+  .time-btn.selected-1 { border-color: var(--amarelo); background: #fffbe6; color: var(--azul); }
+  .time-btn.selected-2 { border-color: var(--verde); background: #f0faf5; color: var(--azul); }
+  .time-btn.selected-3 { border-color: var(--azul); background: #edf0f8; color: var(--azul); }
+  .flag { font-size: 1.3rem; flex-shrink: 0; }
+  .rank-pill {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 20px;
+  }
+  .rank-pill.p1 { background: var(--amarelo); color: var(--azul); }
+  .rank-pill.p2 { background: var(--verde); color: white; }
+  .rank-pill.p3 { background: var(--azul); color: white; }
+
+  /* TERCEIROS */
+  .terceiros-header {
+    background: var(--azul);
+    color: var(--branco);
+    border-radius: 12px 12px 0 0;
+    padding: 14px 16px;
+    margin: -20px -16px 16px;
+  }
+  .terceiros-header h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 800;
+  }
+  .terceiros-header p { font-size: 0.78rem; color: #aab8d4; margin-top: 2px; }
+  .terceiros-counter {
+    display: inline-block;
+    background: var(--amarelo);
+    color: var(--azul);
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 2px 10px;
+    border-radius: 20px;
+    margin-top: 6px;
+  }
+  .terceiros-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .terceiro-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    border: 1.5px solid var(--cinza);
+    border-radius: 10px;
+    background: var(--branco);
+    cursor: pointer;
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--texto);
+    transition: all 0.15s;
+    text-align: left;
+  }
+  .terceiro-btn:hover { border-color: #aaa; }
+  .terceiro-btn.selected { border-color: var(--azul); background: #edf0f8; color: var(--azul); }
+  .terceiro-btn.disabled { opacity: 0.38; cursor: not-allowed; }
+  .grupo-tag {
+    font-size: 0.62rem;
+    font-weight: 700;
+    background: #e8eaf2;
+    color: var(--azul-medio);
+    padding: 1px 5px;
+    border-radius: 4px;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .terceiro-btn.selected .grupo-tag { background: var(--azul); color: var(--amarelo); }
+
+  /* NOME */
+  .nome-section {
+    background: var(--azul);
+    border-radius: 14px;
+    padding: 20px 16px;
+    margin-bottom: 14px;
+    color: var(--branco);
+  }
+  .nome-section h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .nome-section p { font-size: 0.82rem; color: #aab8d4; margin-bottom: 14px; }
+  .nome-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .nome-btn {
+    padding: 10px 6px;
+    border: 1.5px solid #3a4f7a;
+    border-radius: 10px;
+    background: var(--azul-medio);
+    cursor: pointer;
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--branco);
+    transition: all 0.15s;
+    text-align: center;
+  }
+  .nome-btn:hover { border-color: var(--amarelo); }
+  .nome-btn.selected { border-color: var(--amarelo); background: var(--amarelo); color: var(--azul); font-weight: 700; }
+
+  .submit-wrap { margin-top: 24px; }
+  .btn-enviar {
+    width: 100%;
+    padding: 16px;
+    background: var(--verde);
+    color: var(--branco);
+    border: none;
+    border-radius: 12px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-enviar:hover { background: var(--verde-escuro); }
+  .btn-enviar:disabled { background: #aaa; cursor: not-allowed; }
+
+  .erro-msg {
+    color: var(--erro);
+    font-size: 0.82rem;
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: #fff0f0;
+    border-radius: 8px;
+    border-left: 3px solid var(--erro);
+    display: none;
+  }
+
+  .success-screen {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+  }
+  .success-screen .emoji { font-size: 4rem; }
+  .success-screen h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--azul);
+    margin: 16px 0 8px;
+  }
+  .success-screen p { color: var(--texto-suave); font-size: 0.95rem; }
+  .loading { display: none; text-align: center; padding: 20px; color: var(--texto-suave); font-size: 0.9rem; }
+
+  @media (max-width: 400px) {
+    .nome-grid { grid-template-columns: repeat(2, 1fr); }
+    .terceiros-grid { grid-template-columns: 1fr; }
+    header h1 { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>FOX<span>Bet</span> 🦊</h1>
+  <p>Copa do Mundo 2026 — Fase de Grupos</p>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressBar"></div>
+  </div>
+</header>
+
+<main id="mainContent">
+
+  <div class="nome-section">
+    <h2>Quem é você?</h2>
+    <p>Selecione seu nome antes de votar</p>
+    <div class="nome-grid" id="nomeGrid"></div>
+  </div>
+
+  <div class="step-label">Fase de grupos — 1º, 2º e 3º lugar</div>
+
+  <div id="gruposContainer"></div>
+
+  <section class="card" id="cardTerceiros">
+    <div class="terceiros-header">
+      <h2>Melhores terceiros colocados</h2>
+      <p>Escolha exatamente 8 dos 12 terceiros que você acha que passam</p>
+      <div class="terceiros-counter" id="terceirosCounter">0 / 8 selecionados</div>
+    </div>
+    <div class="instrucao">A etiqueta mostra o grupo de origem de cada seleção.</div>
+    <div class="terceiros-grid" id="terceirosGrid"></div>
+  </section>
+
+  <div class="submit-wrap">
+    <button class="btn-enviar" id="btnEnviar" onclick="enviarVotos()">Enviar meu palpite ⚽</button>
+    <div class="erro-msg" id="erroMsg"></div>
+    <div class="loading" id="loadingMsg">Enviando... ⏳</div>
+  </div>
+
+</main>
+
+<div class="success-screen" id="successScreen">
+  <div class="emoji">🎉</div>
+  <h2 id="successNome"></h2>
+  <p>Seu palpite foi registrado!<br>Boa sorte no bolão 🦊</p>
+</div>
+
+<script>
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbw6BBPgS6ASELTn1_HtoAPGN-4F98U024UEtF__U7tkIIE-by4LnOlBmwnDUV5EY9t6qw/exec';
+
+const PARTICIPANTES = ['Bia','Dolly','Esther','Fabio','Felipe','Flavia','Gabriela','Glaucia','Helena','Irving','Luciana','Renato','Little Renato','Robson','Tiago'];
+
+const FLAGS = {
+  'México':'🇲🇽','África do Sul':'🇿🇦','Coreia do Sul':'🇰🇷','República Tcheca':'🇨🇿',
+  'Canadá':'🇨🇦','Bósnia':'🇧🇦','Catar':'🇶🇦','Suíça':'🇨🇭',
+  'Brasil':'🇧🇷','Marrocos':'🇲🇦','Haiti':'🇭🇹','Escócia':'🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+  'Estados Unidos':'🇺🇸','Paraguai':'🇵🇾','Austrália':'🇦🇺','Turquia':'🇹🇷',
+  'Alemanha':'🇩🇪','Curaçao':'🇨🇼','Costa do Marfim':'🇨🇮','Equador':'🇪🇨',
+  'Holanda':'🇳🇱','Japão':'🇯🇵','Suécia':'🇸🇪','Tunísia':'🇹🇳',
+  'Bélgica':'🇧🇪','Egito':'🇪🇬','Irã':'🇮🇷','Nova Zelândia':'🇳🇿',
+  'Espanha':'🇪🇸','Cabo Verde':'🇨🇻','Arábia Saudita':'🇸🇦','Uruguai':'🇺🇾',
+  'França':'🇫🇷','Senegal':'🇸🇳','Noruega':'🇳🇴','Suriname':'🇸🇷',
+  'Argentina':'🇦🇷','Argélia':'🇩🇿','Áustria':'🇦🇹','Jordânia':'🇯🇴',
+  'Portugal':'🇵🇹','Uzbequistão':'🇺🇿','Colômbia':'🇨🇴','Jamaica':'🇯🇲',
+  'Inglaterra':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Croácia':'🇭🇷','Gana':'🇬🇭','Panamá':'🇵🇦',
+};
+
+const GRUPOS = [
+  { id:'A', times:['México','África do Sul','Coreia do Sul','República Tcheca'] },
+  { id:'B', times:['Canadá','Bósnia','Catar','Suíça'] },
+  { id:'C', times:['Brasil','Marrocos','Haiti','Escócia'] },
+  { id:'D', times:['Estados Unidos','Paraguai','Austrália','Turquia'] },
+  { id:'E', times:['Alemanha','Curaçao','Costa do Marfim','Equador'] },
+  { id:'F', times:['Holanda','Japão','Suécia','Tunísia'] },
+  { id:'G', times:['Bélgica','Egito','Irã','Nova Zelândia'] },
+  { id:'H', times:['Espanha','Cabo Verde','Arábia Saudita','Uruguai'] },
+  { id:'I', times:['França','Senegal','Noruega','Suriname'] },
+  { id:'J', times:['Argentina','Argélia','Áustria','Jordânia'] },
+  { id:'K', times:['Portugal','Uzbequistão','Colômbia','Jamaica'] },
+  { id:'L', times:['Inglaterra','Croácia','Gana','Panamá'] },
+];
+
+let nomeSelecionado = null;
+const palpites = {};
+let terceirosSelecionados = []; // [{time, grupo}]
+
+function buildNomes() {
+  const g = document.getElementById('nomeGrid');
+  PARTICIPANTES.forEach(n => {
+    const b = document.createElement('button');
+    b.className = 'nome-btn';
+    b.textContent = n;
+    b.onclick = () => selecionarNome(n);
+    b.id = 'nome_' + n.replace(/\s/g,'_');
+    g.appendChild(b);
+  });
+}
+
+function selecionarNome(n) {
+  nomeSelecionado = n;
+  document.querySelectorAll('.nome-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('nome_' + n.replace(/\s/g,'_')).classList.add('selected');
+  updateProgress();
+}
+
+function buildGrupos() {
+  const container = document.getElementById('gruposContainer');
+  GRUPOS.forEach(g => {
+    const sec = document.createElement('section');
+    sec.className = 'card';
+    sec.id = 'grupo_' + g.id;
+    sec.innerHTML = `
+      <div class="section-header">
+        <div class="group-badge">G${g.id}</div>
+        <h2>Grupo ${g.id}<small>${g.times.join(' · ')}</small></h2>
+        <span class="done-check">✓</span>
+      </div>
+      <div class="instrucao">1º toque = 1º lugar · 2º toque = 2º lugar · 3º toque = 3º lugar · toque de novo para desmarcar</div>
+      <div class="times-grid" id="grid_${g.id}"></div>
+    `;
+    const grid = sec.querySelector(`#grid_${g.id}`);
+    g.times.forEach(time => {
+      const btn = document.createElement('button');
+      btn.className = 'time-btn';
+      btn.id = `btn_${g.id}_${time.replace(/\s/g,'_')}`;
+      btn.innerHTML = `<span class="flag">${FLAGS[time]||'🏳'}</span><span>${time}</span>`;
+      btn.onclick = () => selecionarTime(g.id, time);
+      grid.appendChild(btn);
+    });
+    container.appendChild(sec);
+    palpites[g.id] = {};
+  });
+}
+
+function selecionarTime(grupoId, time) {
+  const p = palpites[grupoId];
+
+  if (p[1] === time) {
+    // era 1º: remove, promove 2º→1º e 3º→2º
+    p[1] = p[2] || null;
+    p[2] = p[3] || null;
+    p[3] = null;
+    if (!p[1]) delete p[1];
+    if (!p[2]) delete p[2];
+    if (!p[3]) delete p[3];
+  } else if (p[2] === time) {
+    p[2] = p[3] || null;
+    p[3] = null;
+    if (!p[2]) delete p[2];
+    if (!p[3]) delete p[3];
+  } else if (p[3] === time) {
+    delete p[3];
+  } else {
+    // adicionar na próxima posição vaga
+    if (!p[1])      p[1] = time;
+    else if (!p[2]) p[2] = time;
+    else if (!p[3]) p[3] = time;
+    else { p[3] = time; } // substitui 3º
+  }
+
+  renderGrupo(grupoId);
+
+  // sincroniza terceiros: se o time estava em terceirosSelecionados mas agora é 1º ou 2º, remove
+  terceirosSelecionados = terceirosSelecionados.filter(x => {
+    const pp = palpites[x.grupo];
+    return x.time !== pp[1] && x.time !== pp[2];
+  });
+
+  updateTerceiros();
+  updateProgress();
+}
+
+function renderGrupo(grupoId) {
+  const p = palpites[grupoId];
+  const grupo = GRUPOS.find(g => g.id === grupoId);
+  grupo.times.forEach(t => {
+    const btn = document.getElementById(`btn_${grupoId}_${t.replace(/\s/g,'_')}`);
+    btn.className = 'time-btn';
+    const oldPill = btn.querySelector('.rank-pill');
+    if (oldPill) oldPill.remove();
+    let cls = '', label = '';
+    if (p[1] === t)      { cls = 'selected-1'; label = '1º'; }
+    else if (p[2] === t) { cls = 'selected-2'; label = '2º'; }
+    else if (p[3] === t) { cls = 'selected-3'; label = '3º'; }
+    if (cls) {
+      btn.classList.add(cls);
+      const pill = document.createElement('span');
+      pill.className = 'rank-pill ' + (label==='1º'?'p1':label==='2º'?'p2':'p3');
+      pill.textContent = label;
+      btn.appendChild(pill);
+    }
+  });
+  const card = document.getElementById('grupo_' + grupoId);
+  if (p[1] && p[2]) { card.classList.add('done'); card.classList.remove('error-card'); }
+  else { card.classList.remove('done'); }
+}
+
+function updateTerceiros() {
+  const grid = document.getElementById('terceirosGrid');
+  // candidatos: times que NÃO são 1º ou 2º do próprio grupo
+  let candidates = [];
+  GRUPOS.forEach(g => {
+    const p = palpites[g.id];
+    g.times.forEach(t => {
+      if (t !== p[1] && t !== p[2]) {
+        candidates.push({ time: t, grupo: g.id });
+      }
+    });
+  });
+
+  grid.innerHTML = '';
+  candidates.forEach(c => {
+    const isSelected = terceirosSelecionados.some(x => x.time === c.time && x.grupo === c.grupo);
+    const isFull = terceirosSelecionados.length >= 8 && !isSelected;
+    const btn = document.createElement('button');
+    btn.className = 'terceiro-btn' + (isSelected?' selected':'') + (isFull?' disabled':'');
+    btn.innerHTML = `<span class="flag">${FLAGS[c.time]||'🏳'}</span><span>${c.time}</span><span class="grupo-tag">Grp ${c.grupo}</span>`;
+    if (!isFull || isSelected) btn.onclick = () => toggleTerceiro(c);
+    grid.appendChild(btn);
+  });
+
+  updateTerceirosCounter();
+
+  const card = document.getElementById('cardTerceiros');
+  if (terceirosSelecionados.length === 8) { card.classList.add('done'); card.classList.remove('error-card'); }
+  else { card.classList.remove('done'); }
+}
+
+function toggleTerceiro(c) {
+  const idx = terceirosSelecionados.findIndex(x => x.time === c.time && x.grupo === c.grupo);
+  if (idx >= 0) terceirosSelecionados.splice(idx, 1);
+  else {
+    if (terceirosSelecionados.length >= 8) return;
+    terceirosSelecionados.push(c);
+  }
+  updateTerceiros();
+  updateProgress();
+}
+
+function updateTerceirosCounter() {
+  document.getElementById('terceirosCounter').textContent = `${terceirosSelecionados.length} / 8 selecionados`;
+}
+
+function updateProgress() {
+  let done = nomeSelecionado ? 1 : 0;
+  GRUPOS.forEach(g => { const p = palpites[g.id]; if (p[1] && p[2]) done++; });
+  if (terceirosSelecionados.length === 8) done++;
+  const total = 1 + 12 + 1;
+  document.getElementById('progressBar').style.width = Math.round(done/total*100) + '%';
+}
+
+function validar() {
+  if (!nomeSelecionado) return 'Selecione seu nome antes de enviar!';
+  for (const g of GRUPOS) {
+    const p = palpites[g.id];
+    if (!p[1] || !p[2]) return `Grupo ${g.id}: escolha pelo menos o 1º e o 2º colocado.`;
+  }
+  if (terceirosSelecionados.length !== 8) return `Selecione exatamente 8 melhores terceiros (você selecionou ${terceirosSelecionados.length}).`;
+  return null;
+}
+
+async function enviarVotos() {
+  const erro = validar();
+  const erroEl = document.getElementById('erroMsg');
+  if (erro) {
+    erroEl.textContent = erro;
+    erroEl.style.display = 'block';
+    GRUPOS.forEach(g => {
+      const p = palpites[g.id];
+      const card = document.getElementById('grupo_' + g.id);
+      if (!p[1] || !p[2]) card.classList.add('error-card');
+    });
+    const cardT = document.getElementById('cardTerceiros');
+    if (terceirosSelecionados.length !== 8) cardT.classList.add('error-card');
+    erroEl.scrollIntoView({ behavior:'smooth', block:'center' });
+    return;
+  }
+  erroEl.style.display = 'none';
+  document.getElementById('btnEnviar').disabled = true;
+  document.getElementById('loadingMsg').style.display = 'block';
+
+  // monta payload: 1_A, 2_A, 3_A (se tiver), etc.
+  const payload = { nome: nomeSelecionado, timestamp: new Date().toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'}) };
+  GRUPOS.forEach(g => {
+    const p = palpites[g.id];
+    payload['1_' + g.id] = p[1] || '';
+    payload['2_' + g.id] = p[2] || '';
+    payload['3_' + g.id] = ''; // começa vazio, preenchido pelos terceiros abaixo
+  });
+  // distribui terceiros selecionados nas linhas 3_X do grupo correspondente
+  terceirosSelecionados.forEach(x => {
+    payload['3_' + x.grupo] = x.time;
+  });
+  // terceiros que a pessoa marcou como 3º direto no grupo (via seleção no grupo)
+  GRUPOS.forEach(g => {
+    const p = palpites[g.id];
+    if (p[3]) payload['3_' + g.id] = p[3];
+  });
+
+  try {
+    await fetch(SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    document.getElementById('mainContent').style.display = 'none';
+    document.getElementById('successScreen').style.display = 'block';
+    document.getElementById('successNome').textContent = nomeSelecionado + ', palpite enviado!';
+  } catch(e) {
+    document.getElementById('loadingMsg').style.display = 'none';
+    document.getElementById('btnEnviar').disabled = false;
+    erroEl.textContent = 'Erro ao enviar. Verifique sua internet e tente novamente.';
+    erroEl.style.display = 'block';
+  }
+}
+
+buildNomes();
+buildGrupos();
+updateTerceiros();
+updateProgress();
+</script>
+</body>
+</html>
